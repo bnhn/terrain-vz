@@ -7,9 +7,9 @@ st.set_page_config(layout="wide")
 
 if not ee.data._credentials:
     print("authenticating")
-    service_account = st.secrets.sa_credentials.email
+    service_account = st.secrets.sa_email
     credentials = ee.ServiceAccountCredentials(
-        service_account, st.secrets.sa_credentials.credentials
+        service_account, st.secrets.credentials
     )
     ee.Initialize(credentials=credentials)
 
