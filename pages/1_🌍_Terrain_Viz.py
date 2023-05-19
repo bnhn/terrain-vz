@@ -2,15 +2,14 @@ import ee
 import geemap.foliumap as geemap
 import geopandas as gpd
 import streamlit as st
+import json
 
 st.set_page_config(layout="wide")
 
 if not ee.data._credentials:
-    print("authenticating")
+    credentials = json.dumps(st.secrets.credentials)
     service_account = st.secrets.sa_email
-    credentials = ee.ServiceAccountCredentials(
-        service_account, st.secrets.credentials
-    )
+    credentials = ee.ServiceAccountCredentials(service_account, credentials)
     ee.Initialize(credentials=credentials)
 
 else:
@@ -46,12 +45,14 @@ with col1:
 
     elevation = ee.Image("USGS/GMTED2010").select("be75").clip(selected_country)
 
-    min_max = elevation.reduceRegion(ee.Reducer.minMax(),selected_country, bestEffort=True).getInfo()
+    min_max = elevation.reduceRegion(
+        ee.Reducer.minMax(), selected_country, bestEffort=True
+    ).getInfo()
     elevationVis = {
-    'min': min_max["be75_min"],
-    'max': min_max["be75_max"],
-    # 'gamma': 3.5,
-    'palette':['#0052ff','#7ba6ff', '#ff7f59', '#ff3700','#F4F5F0'],
+        "min": min_max["be75_min"],
+        "max": min_max["be75_max"],
+        # 'gamma': 3.5,
+        "palette": ["#0052ff", "#7ba6ff", "#ff7f59", "#ff3700", "#F4F5F0"],
     }
 
     styleParams = {
@@ -63,5 +64,5 @@ with col1:
     countries = countries.style(**styleParams)
 
     m.addLayer(selected_country, {}, country_selection)
-    m.addLayer(elevation,elevationVis,"Terrain")
+    m.addLayer(elevation, elevationVis, "Terrain")
     m.to_streamlit()
