@@ -7,9 +7,7 @@ import json
 st.set_page_config(layout="wide")
 
 if not ee.data._credentials:
-    keys_json = json.dumps(st.secrets["keys"])
-    service_account = st.secrets["sa_email"]
-    credentials = ee.ServiceAccountCredentials(service_account, keys_json)
+    credentials = ee.ServiceAccountCredentials(st.secrets["sa_email"], json.dumps(dict(**st.secrets["EARTH_ENGINE_CREDENTIALS"])))
     ee.Initialize(credentials=credentials)
 
 else:
