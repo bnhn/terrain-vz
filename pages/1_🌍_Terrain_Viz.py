@@ -3,21 +3,29 @@ import geemap.foliumap as geemap
 import geopandas as gpd
 import streamlit as st
 import json
+import os
 
 st.set_page_config(layout="wide")
 
-if not ee.data._credentials:
-    credentials = ee.ServiceAccountCredentials(st.secrets["sa_email"], json.dumps(dict(**st.secrets["EARTH_ENGINE_CREDENTIALS"])))
-    ee.Initialize(credentials=credentials)
-
-else:
-    print("already authenticated")
-    # ee.Initialize()
-
 st.title("Visualize Country Terrain")
-
 col1, col2 = st.columns([4, 1])
 
+@st.cache_resource
+def terra_auth():
+        with open(st.secrets["cred_path"], "w") as file:
+            json.dump(dict(**st.secrets["EARTH_ENGINE_CREDENTIALS"]), file)
+
+        credentials = ee.ServiceAccountCredentials(st.secrets["sa_email"], st.secrets["cred_path"])
+        ee.Initialize(credentials=credentials)
+
+        with open(os.environ["cred_path"], "w") as file:
+            json.dump(dict(), file)
+
+if not ee.data._credentials:
+     terra_auth()    
+else:
+        print("already authenticated")
+        # ee.Initialize()
 
 @st.cache_data
 def get_country_names(url):
@@ -35,7 +43,7 @@ with col2:
 with col1:
     m = geemap.Map()
     m.add_basemap(basemap)
-
+    
     countries = ee.FeatureCollection("FAO/GAUL/2015/level0")
     selected_country = countries.filter(ee.Filter.eq("ADM0_NAME", country_selection))
 
@@ -63,4 +71,5 @@ with col1:
 
     m.addLayer(selected_country, {}, country_selection)
     m.addLayer(elevation, elevationVis, "Terrain")
+
     m.to_streamlit()
