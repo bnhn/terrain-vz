@@ -28,12 +28,12 @@ else:
         # ee.Initialize()
 
 @st.cache_data
-def get_country_names(url):
-    countries_gdf = gpd.read_file(url)
-    return countries_gdf["NAME"].sort_values().to_numpy()
+def get_country_names(fc):
+    country_names = fc.aggregate_array("COUNTRY_NA")
+    return country_names.getInfo()
 
-
-options = get_country_names(geemap.examples.datasets.countries_geojson)
+countries = ee.FeatureCollection("USDOS/LSIB/2017")
+options = get_country_names(countries)
 
 with col2:
     country_selection = st.selectbox("Select a country:", options, index=0)
@@ -44,8 +44,7 @@ with col1:
     m = geemap.Map()
     m.add_basemap(basemap)
     
-    countries = ee.FeatureCollection("FAO/GAUL/2015/level0")
-    selected_country = countries.filter(ee.Filter.eq("ADM0_NAME", country_selection))
+    selected_country = countries.filter(ee.Filter.eq("COUNTRY_NA", country_selection))
 
     m.centerObject(selected_country, 6)
 
