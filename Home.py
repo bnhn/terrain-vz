@@ -1,6 +1,6 @@
 import streamlit as st
 import leafmap.foliumap as leafmap
-import leafmap.kepler as leafmap_kep
+
 st.set_page_config(layout="wide")
 
 # Customize the sidebar
