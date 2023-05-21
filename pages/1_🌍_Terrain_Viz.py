@@ -59,7 +59,7 @@ def sort_country_names(country_names):
     return sorted(undisputed)
 
 countries = ee.FeatureCollection("USDOS/LSIB/2017")
-options = sort_country_names(get_country_names(countries))
+options = sort_country_names(get_country_names(countries, "COUNTRY_NA"))
 
 with col2:
     country_selection = st.selectbox("Select a country:", options, index=0)

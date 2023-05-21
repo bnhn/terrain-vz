@@ -1,8 +1,12 @@
 import streamlit as st
 import leafmap.foliumap as leafmap
 
-st.set_page_config(layout="wide")
-
+st.set_page_config(
+   page_title="Terraain Vz",
+   page_icon="🧊",
+   layout="wide",
+   initial_sidebar_state="expanded",
+)
 # Customize the sidebar
 markdown = """
 Find the code on [Github](https://github.com/bnhn/terrain-vz)
