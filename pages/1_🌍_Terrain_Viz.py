@@ -83,7 +83,12 @@ with col1:
         "min": min_max["be75_min"],
         "max": min_max["be75_max"],
         # 'gamma': 3.5,
-        "palette": ["#0052ff", "#7ba6ff", "#F4F5F0","#ff3700","#ff7f59"],
+        "palette": ["#0052ff",
+                    "#7ba6ff",
+                    "#F4F5F0",
+                    "#ff3700",
+                    "#ff7f59",
+                    ],
     }
 
     styleParams = {
