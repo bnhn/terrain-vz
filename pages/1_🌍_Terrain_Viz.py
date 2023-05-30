@@ -2,8 +2,6 @@ import ee
 import geemap.foliumap as geemap
 import geopandas as gpd
 import streamlit as st
-import json
-import os
 
 from gee_auth import terra_auth
 
