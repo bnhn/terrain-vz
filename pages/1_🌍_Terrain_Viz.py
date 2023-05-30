@@ -5,24 +5,12 @@ import streamlit as st
 import json
 import os
 
+from gee_auth import terra_auth
+
 st.set_page_config(layout="wide")
 
 st.title("Visualize Country Terrain")
 col1, col2 = st.columns([4, 1])
-
-@st.cache_resource
-def terra_auth():
-    """
-    Earth Engine authentication flow
-    """
-    with open(st.secrets["cred_path"], "w") as file:
-        json.dump(dict(**st.secrets["EARTH_ENGINE_CREDENTIALS"]), file)
-
-    credentials = ee.ServiceAccountCredentials(st.secrets["sa_email"], st.secrets["cred_path"])
-    ee.Initialize(credentials=credentials)
-
-    with open(os.environ["cred_path"], "w") as file:
-        json.dump(dict(), file)
 
 if not ee.data._credentials:
      terra_auth()    
