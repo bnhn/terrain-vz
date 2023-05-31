@@ -55,7 +55,7 @@ options = sort_country_names(get_country_names(countries, "COUNTRY_NA"))
 # st.write(st.session_state)
 with col2:
     country_selection = st.selectbox("Select a country:", options, index=0)
-    basemap = "TERRAIN"
+    basemap = "Stamen.TonerBackground"
 
 palette = ["#386641", "#6a994e", "#a7c957", "#fdf7d6", "#ffffff"]
 palette_a = [
