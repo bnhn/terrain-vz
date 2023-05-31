@@ -9,6 +9,7 @@ st.set_page_config(
    layout="wide",
    initial_sidebar_state="expanded",
 )
+
 # Customize the sidebar
 markdown = """
 Find the code on [Github](https://github.com/bnhn/terrain-vz)
@@ -34,6 +35,6 @@ else:
     print("already authenticated")
     # ee.Initialize()
 
-m = geemap.Map(minimap_control=True)
+m = geemap.Map()
 m.add_basemap("Stamen.TonerBackground")
 m.to_streamlit(height=500)
