@@ -38,6 +38,7 @@ terrav*
 
 # app  files
 pages/2_Basemaps.py
+notebook.ipynb
 
 # Installer logs
 pip-log.txt
